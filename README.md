@@ -113,6 +113,38 @@ public class KafkaConsumerConfig {
     }
 }
 ```
+#### Handling Listener Errors
+
+From Spring Kafka 2.5.x onwards, the `KafkaListenerContainerFactor` uses a `SeekToCurrentErrorHandler` as the default `errorHandler`.
+This can be overridden by specifying the error handler as a bean:
+```
+@Bean
+public ErrorHandler errorHandler() {
+    return new MyLoggingErrorHandler();
+}
+```
+or explicitly as below 
+```
+@Bean
+public ConcurrentKafkaListenerContainerFactory<String, Long> kafkaListenerContainerFactory() {
+
+    ConcurrentKafkaListenerContainerFactory<String, Long> factory =
+            new ConcurrentKafkaListenerContainerFactory<>();
+
+    factory.setConsumerFactory(consumerFactory);
+
+    // Default SeekToCurrentErrorHandler() is the default from Kafka-Spring 2.5 onwards
+    // factory.setErrorHandler( new SeekToCurrentErrorHandler());
+
+    // The LoggingErrorHandler simply logs an error and moves on.
+    //factory.setErrorHandler( new LoggingErrorHandler());
+
+    // Specifying a SeekToCurrentHandler with backoff and retries ...
+    // factory.setErrorHandler( new SeekToCurrentErrorHandler( new FixedBackOff(20000,3)));
+
+    return factory;
+}
+```
 ### References
 
 * [Confluent Blog Post - Error Handling in Kafka](https://www.confluent.io/blog/spring-for-apache-kafka-deep-dive-part-1-error-handling-message-conversion-transaction-support/)
