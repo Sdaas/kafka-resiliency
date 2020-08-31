@@ -48,14 +48,12 @@ test-topic
 Start a consumer that will echo whatever the producer writes to `test-topic`
 
 ```
-./consumer.sh
+$ ./consumer.sh
 ```
 
-In another terminal start off a producer, and enter some data for the producer. 
+In another terminal start off a producer, and enter data in `key:value` format 
 ```
-$ kafka-console-producer --broker-list 127.0.0.1:9092 --topic test-topic
->
-> (ctrl C to quit)
+$ ./producer.sh
 ```
 
 Type something into the producer. If all goes well, you should see the consumer echo it back.
