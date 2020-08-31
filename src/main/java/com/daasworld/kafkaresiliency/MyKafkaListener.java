@@ -13,7 +13,9 @@ public class MyKafkaListener {
 
     //TODO : Read Topic from configuration file
 
-    @KafkaListener(topics = "test-topic") // errorHandler = "customErrorHandler"
+    private MessageProcessor mp = new MessageProcessor();
+
+    @KafkaListener(topics = "test-topic")
     public void listen(@Payload long value,
         @Header(name = KafkaHeaders.RECEIVED_MESSAGE_KEY, required = false) String key,
         @Header(KafkaHeaders.RECEIVED_PARTITION_ID) int partition,
@@ -22,6 +24,7 @@ public class MyKafkaListener {
         @Header(KafkaHeaders.OFFSET) long offset
     ) {
         log.info("Reading topic={} partition={} offset={}, key={}, value={}", topic, partition, offset, key, value );
+        mp.process(value);
     }
 
 
