@@ -1,5 +1,9 @@
 spring:
   kafka:
+    # For the DLT Publisher
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.LongSerializer
     consumer:
       bootstrap-servers: localhost:9092
       group-id: demo-consumer1
