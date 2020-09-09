@@ -1,7 +1,7 @@
 #!/bin/bash
 
 kafka-console-consumer --bootstrap-server localhost:9092 \
-    --topic test-topic.DLT \
+    --topic dlq-topic \
     --from-beginning \
     --formatter kafka.tools.DefaultMessageFormatter \
     --property print.key=true \
